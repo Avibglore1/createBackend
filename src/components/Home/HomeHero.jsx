@@ -1,9 +1,16 @@
-import React from 'react'
+import React from "react";
+import Homeheroimg from "../../assets/Home/Homeheroimg.png";
 
-function HomeHero() {
+const HeroSection = () => {
   return (
-    <div>HomeHero</div>
-  )
-}
+    <div className="relative w-full h-[100vh] flex items-center justify-center overflow-hidden mt-10">
+      <img
+        src={Homeheroimg}
+        alt="Jewelry Showcase"
+        className="w-full h-full object-cover object-center"
+      />
+    </div>
+  );
+};
 
-export default HomeHero
+export default HeroSection;
