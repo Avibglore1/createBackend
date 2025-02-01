@@ -7,8 +7,8 @@ function Home() {
   return (
     <>
       <HemoHero />
-      <RingGemstone />
       <DiamondGifts/>
+      <RingGemstone />
     </>
   );
 }
