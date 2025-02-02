@@ -1,5 +1,6 @@
 import React from 'react';
 import aboutMainbg from "../../assets/About/Mainbg.png";
+import AboutJewels from "../../components/AboutUs/AboutJewels";
 
 const JewelryHeader = () => {
   return (
@@ -51,6 +52,8 @@ const JewelryHeader = () => {
           </div>
         </div>
       </div>
+    <AboutJewels/>
+
     </div>
   );
 };
