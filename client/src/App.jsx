@@ -4,7 +4,6 @@ import Home from "./views/Home";
 import AboutUs from "./components/AboutUs/AboutHero";
 import Collection from "./components/Collection/Collection"
 
-
 function App() {
   return (
     <Router>
