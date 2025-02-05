@@ -4,6 +4,7 @@ import RingGemstone from "../components/Home/RingGemstone";
 import DiamondGifts from "../components/Home/DiamondGifts";
 import Rticom from "../components/Home/RtiHome";
 import GalleryHome from "../components/Home/GalleryHome";
+import RingSlider from "../components/RingSlider/RingSlider";
 
 
 function Home() {
@@ -14,6 +15,7 @@ function Home() {
       <RingGemstone />
       <Rticom/>
       <GalleryHome/>
+      <RingSlider/>
     </>
   );
 }
