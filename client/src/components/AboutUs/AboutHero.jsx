@@ -1,6 +1,8 @@
 import React from 'react';
 import aboutMainbg from "../../assets/About/Mainbg.png";
 import AboutJewels from "../../components/AboutUs/AboutJewels";
+import DesignCustom from "../../components/AboutUs/DesignCustom";
+import OurTeam from "../../components/AboutUs/OurTeam";
 
 const JewelryHeader = () => {
   return (
@@ -53,6 +55,8 @@ const JewelryHeader = () => {
         </div>
       </div>
     <AboutJewels/>
+    <DesignCustom/>
+    <OurTeam/>
 
     </div>
   );

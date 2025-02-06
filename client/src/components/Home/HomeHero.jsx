@@ -3,7 +3,7 @@ import Homeheroimg from "../../assets/Home/Homeheroimg.png";
 
 const HeroSection = () => {
   return (
-    <div className="relative w-full h-[100vh] flex items-center justify-center overflow-hidden mt-10">
+    <div className="relative w-full h-[100vh] flex items-center justify-center overflow-hidden pt-20 ">
       <img
         src={Homeheroimg}
         alt="Jewelry Showcase"
