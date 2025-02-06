@@ -2,57 +2,92 @@ import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Ring1 from "../../assets/CollectionImg/ring1.png";
+import ring2 from "../../assets/CollectionImg/ring2.jpg";
+import ring3 from "../../assets/CollectionImg/ring3.jpg";
+import pendant1 from "../../assets/CollectionImg/pendant1.jpg";
+import pendant2 from "../../assets/CollectionImg/pendant2.jpg";
+import bracelet1 from "../../assets/CollectionImg/bracelet1.jpg";
+import bracelet2 from "../../assets/CollectionImg/bracelet2.jpg";
+import necklese1 from "../../assets/CollectionImg/nacklese1.jpg";
+import necklese2 from "../../assets/CollectionImg/nacklese2.jpg";
+import earring1 from "../../assets/CollectionImg/earring1.jpg";
+import earring2 from "../../assets/CollectionImg/earring2.jpg";
+import bali1 from "../../assets/CollectionImg/bali1.jpg";
+import bali2 from "../../assets/CollectionImg/bali2.jpg";
+import bangle1 from "../../assets/CollectionImg/bangle1.jpg";
+import bangle2 from "../../assets/CollectionImg/bangle2.jpg";
+
+
+
+
+
 
 function Slider() {
     const sliderRefs = useRef([]);
 
     const collections = [
         {
-            title: "Pendants and Pendant Sets",
+            title: "Rings",
             slides: [
-                { title: "Special Pendants", image: Ring1 },
-                { title: "Causal Pendant sets", image: Ring1 },
-                { title: "Designer Pendants", image: Ring1 }
+                { title: "WEDDING RING", image: Ring1 },
+                { title: "Causal Ring", image: ring2 },
+                { title: "Statement Rings", image: ring3 }
             ]
         },
         {
-            title: "Rings Collection",
+            title: "Pendants and Pendant Sets",
             slides: [
-                { title: "Diamond Rings", image: Ring1 },
-                { title: "Gold Rings", image: Ring1 },
+                { title: "Special Pendants", image: pendant1 },
+                { title: "Causal Pendant sets", image: pendant2 },
                 { title: "Statement Rings", image: Ring1 }
             ]
         },
         {
-            title: "Earrings Selection",
+            title: "Bracelets",
             slides: [
-                { title: "Stud Earrings", image: Ring1 },
-                { title: "Hoop Earrings", image: Ring1 },
+                { title: "Special Bracelets", image: bracelet1 },
+                { title: "Causal Bracelets", image: bracelet2 },
+                { title: "Designer Bracelets", image: Ring1 }
+            ]
+        },
+        {
+            title: "Necklace Sets",
+            slides: [
+                { title: "Special Necklace", image: necklese1 },
+                { title: "Causal Necklace Set", image: necklese2 },
+                { title: "Necklace Set", image: Ring1 }
+            ]
+        },
+        {
+            title: "Earrings",
+            slides: [
+                { title: "Special Earrings", image: earring1 },
+                { title: "Causal Earring", image: earring2 },
                 { title: "Drop Earrings", image: Ring1 }
             ]
         },
         {
-            title: "Bracelets & Bangles",
+            title: "Bali",
             slides: [
-                { title: "Chain Bracelets", image: Ring1 },
-                { title: "Charm Bracelets", image: Ring1 },
-                { title: "Designer Bangles", image: Ring1 }
+                { title: "Special Bali", image: bali1 },
+                { title: "Causal Bali", image: bali2 },
+                { title: "Engagement Bali", image: Ring1 }
             ]
         },
         {
-            title: "Necklaces",
+            title: "Bangles",
             slides: [
-                { title: "Statement Necklaces", image: Ring1 },
-                { title: "Chain Necklaces", image: Ring1 },
-                { title: "Chokers", image: Ring1 }
+                { title: "Special Bangles", image: bangle1 },
+                { title: "Causal Bangles", image: bangle2 },
+                { title: "Engagement Bangles", image: Ring1 }
             ]
         },
         {
-            title: "Wedding Collection",
+            title: "Tops",
             slides: [
-                { title: "Bridal Sets", image: Ring1 },
-                { title: "Wedding Bands", image: Ring1 },
-                { title: "Engagement Rings", image: Ring1 }
+                { title: "Special Tops", image: bangle1 },
+                { title: "Causal Tops", image: bangle2 },
+                { title: "Engagement Tops", image: Ring1 }
             ]
         }
     ];
@@ -74,7 +109,7 @@ function Slider() {
         <div className="space-y-16">
             {collections.map((collection, idx) => (
                 <div key={idx} className="max-w-7xl mx-auto px-4">
-                    <h1 className="text-4xl md:text-5xl mb-8 font-light">
+                    <h1 className="text-4xl md:text-5xl mb-8 font-normal">
                         {collection.title}
                     </h1>
           
@@ -92,14 +127,14 @@ function Slider() {
                                     key={index}
                                     className="min-w-[300px] md:min-w-[400px] p-2 scroll-snap-align-start flex-shrink-0"
                                 >
-                                    <div className="relative h-[400px] rounded-lg overflow-hidden">
+                                    <div className="relative h-[400px] w-[450px] rounded-lg overflow-hidden">
                                         <img 
                                             src={slide.image} 
                                             alt={slide.title}
                                             className="w-full h-full object-cover"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent">
-                                            <h2 className="absolute bottom-6 left-6 text-white text-2xl font-light">
+                                            <h2 className="absolute top-6 left-1/2 transform -translate-x-1/2 text-white text-2xl md:text-[30px] font-normal ">
                                                 {slide.title}
                                             </h2>
                                         </div>

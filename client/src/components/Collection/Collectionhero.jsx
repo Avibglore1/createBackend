@@ -20,7 +20,7 @@ function Collectionhero(){
            </div>
 
            <div className="absolute z-10 h-[50px] w-[300px] left-[40px] top-[450px] sm:h-[90px] sm:w-[320px] sm:top-[540px] sm:left-[80px] text-center">
-            <p className="text-[#F2F2F2] text-[25px] sm:text-[15px]">
+            <p className="text-[#F2F2F2] text-[25px] sm:text-[15px] font-normal">
             Say “I Do” With The Perfect Ring Seal your vows with your dream rings. Explore our wedding ring styles and find the perfect rings to start your forever.
             </p>
            </div>
