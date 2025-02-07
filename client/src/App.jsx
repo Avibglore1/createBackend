@@ -5,6 +5,7 @@ import AboutUs from "./components/AboutUs/AboutHero";
 
 import Shop from "./components/Shop/shop";
 import Collection from "./components/Collection/Collection"
+import Cart from "./components/Cart/Carthero";
 import Navbar from "./components/Navbar";
 import NotFound from "./views/NotFound";
 import Footer from "./components/Footer";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/collection" element={<Collection />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="*" element={<NotFound />} />
 
         </Route>

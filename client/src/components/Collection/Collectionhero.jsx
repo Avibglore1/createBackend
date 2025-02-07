@@ -2,20 +2,20 @@ import Jewel from "../../assets/CollectionImg/jewel.png";
 
 function Collectionhero(){
     return(
-        <div className="relative h-screen w-screen">
-           <div className="absolute z-0">
-           <img src={Jewel} alt="jewel" className="h-screen w-screen object-cover" />
+        <div className="relative h-screen w-screen  ">
+           <div className="absolute z-0 ">
+           <img src={Jewel} alt="jewel" className="h-screen w-screen object-cover " />
            </div>
 
-           <div className="absolute z-10 top-[110px] left-[50px] sm:top-[30px] sm:left-5">
+           <div className="absolute z-10 top-[110px] left-[50px] sm:top-[55px] sm:left-5">
              <p className="font-Montserrat  text-white text-[40px] sm:text-[66px] ">Collection of</p>
            </div>
 
-           <div className="absolute z-10 top-[140px] left-[40px] sm:top-[60px] sm:left-[160px]">
+           <div className="absolute z-10 top-[140px] left-[40px] sm:top-[80px] sm:left-[160px]">
                 <p className="font-Montserrat text-[80px] sm:text-[128px] text-white">Amulya</p>
            </div>
 
-           <div className="absolute z-10 top-[230px] left-[50px] sm:top-[200px] sm:left-[600px]">
+           <div className="absolute z-10 top-[230px] left-[50px] sm:top-[220px] sm:left-[600px]">
                 <p className="font-Montserrat text-white text-[40px] sm:text-[50px] ">Jewels</p>
            </div>
 
