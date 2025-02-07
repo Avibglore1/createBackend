@@ -94,16 +94,19 @@ function Slider() {
 
     const scrollSlider = (index, direction) => {
         if (sliderRefs.current[index]) {
-            const scrollAmount = direction === 'left' 
-                ? -sliderRefs.current[index].offsetWidth 
-                : sliderRefs.current[index].offsetWidth;
-            
+            // Find the width of the first child (image) to set scroll amount
+            const slideWidth = sliderRefs.current[index].firstChild.offsetWidth;
+    
+            const scrollAmount = direction === 'left' ? -slideWidth : slideWidth;
+    
             sliderRefs.current[index].scrollBy({
                 left: scrollAmount,
                 behavior: 'smooth'
             });
         }
     };
+
+    
 
     return (
         <div className="space-y-16">
@@ -127,14 +130,19 @@ function Slider() {
                                     key={index}
                                     className="min-w-[300px] md:min-w-[400px] p-2 scroll-snap-align-start flex-shrink-0"
                                 >
-                                    <div className="relative h-[400px] w-[450px] rounded-lg overflow-hidden">
+                                    <div className="relative h-[250px] md:h-[400px] w-[250px] md:w-[450px] rounded-lg overflow-hidden">
                                         <img 
                                             src={slide.image} 
                                             alt={slide.title}
                                             className="w-full h-full object-cover"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent">
-                                            <h2 className="absolute top-6 left-1/2 transform -translate-x-1/2 text-white text-2xl md:text-[30px] font-normal ">
+
+                                        {/* Gradient Overlay */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+
+                                        {/* Centered Text */}
+                                        <div className="absolute top-4 md:top-6 left-1/2 transform -translate-x-1/2">
+                                            <h2 className="text-white text-lg md:text-2xl font-medium text-center">
                                                 {slide.title}
                                             </h2>
                                         </div>
