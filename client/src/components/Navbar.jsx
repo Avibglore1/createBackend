@@ -25,7 +25,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-[#011728] text-white shadow-md fixed w-full z-50">
+    <nav className="bg-[#011728] text-white shadow-md fixed  w-full z-50">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center ">
           {/* Logo */}
