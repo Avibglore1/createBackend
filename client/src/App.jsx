@@ -11,6 +11,8 @@ import NotFound from "./views/NotFound";
 import Footer from "./components/Footer";
 import Account from "./components/Account/account";
 import Help from "./components/Help/Help"
+import ScrollToTopButton from './components/TopIcon'; 
+
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
 
         </Route>
       </Routes>
+      <ScrollToTopButton />
       <Footer/>
     </Router>
   );
