@@ -130,7 +130,7 @@ function Slider() {
                                     key={index}
                                     className="min-w-[300px] md:min-w-[400px] p-2 scroll-snap-align-start flex-shrink-0"
                                 >
-                                    <div className="relative h-[250px] md:h-[400px] w-[250px] md:w-[450px] rounded-lg overflow-hidden">
+                                    <div className="relative h-[290px] md:h-[400px] w-[290px] md:w-[450px] rounded-lg overflow-hidden">
                                         <img 
                                             src={slide.image} 
                                             alt={slide.title}
