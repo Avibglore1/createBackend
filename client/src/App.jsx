@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar";
 import NotFound from "./views/NotFound";
 import Footer from "./components/Footer";
 import Account from "./components/Account/account";
+import Help from "./components/Help/Help"
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/account" element={<Account />} />
 
           <Route path="/cart" element={<Cart />} />
+          <Route path="/help" element={<Help />} />
 
           <Route path="*" element={<NotFound />} />
 
