@@ -38,7 +38,7 @@ const ProductCard = ({title, price, colors }) => (
   </div>
 );
   return (
-    <div className="pl-4">
+    <div className="pl-4 pt-[80px]">
       <div className="py-4">
         <h1 className="font-serif text-2xl sm:text-5xl font-semibold leading-[39.01px] text-left sm:pb-2">
           Classic Wedding Rings for Womens
@@ -71,7 +71,7 @@ const ProductCard = ({title, price, colors }) => (
         </button>
       ))}
     </div>
-    <div className="flex flex-wrap justify-center items-center h-screen">
+    <div className="flex flex-wrap justify-center items-center ">
       {products.map((product, idx) => (
         <ProductCard key={idx} {...product} />
       ))}
