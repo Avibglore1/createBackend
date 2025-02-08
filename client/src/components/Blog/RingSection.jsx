@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Backpendent from "../../assets/Blog/Backpendent.png";
 
 const RingSection = () => {
