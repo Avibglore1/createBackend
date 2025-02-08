@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import helpimg from "../../assets/Help/Rectangle_52.png";
 import helpimg2 from "../../assets/Help/pexels-janakukebal-30541179 1.png";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 export default function Help() {
   const [visibleItems, setVisibleItems] = useState({});
@@ -50,7 +51,8 @@ export default function Help() {
               "The 4Cs stand for Cut, Color, Clarity, and Carat weight. These factors determine a diamond’s quality and value.",
           },
           {
-            question: "2. What is the difference between natural and lab-grown diamonds?",
+            question:
+              "2. What is the difference between natural and lab-grown diamonds?",
             answer:
               "Natural diamonds are formed over billions of years in the Earth’s mantle, while lab-grown diamonds are created in a controlled environment but have the same physical and chemical properties.",
           },
@@ -60,15 +62,21 @@ export default function Help() {
               "Buying online from trusted retailers can offer better deals, but in-store allows you to inspect the diamond in person. Always check for return policies and certification.",
           },
         ].map((item, index) => (
-          <div key={index} className="mb-4">
+          <div key={index} className="py-4">
             <div
-              className="font-montserrat text-[20px] sm:text-[32px] font-normal leading-[30px] sm:leading-[39.01px] cursor-pointer py-[10px] sm:py-[20px] border-b border-gray-300"
+              className="flex justify-between font-montserrat text-[15px] sm:text-[32px] font-normal leading-[20px] sm:leading-[10px] cursor-pointer p-[8px] sm:pl-6 sm:py-[10px] border-2 border-black rounded-full sm:rounded-full "
               onClick={() => toggleVisibility(index)}
             >
               {item.question}
+              {visibleItems[index] ? (
+                <IoIosArrowUp className="text-[15px] sm:text-[32px] sm:mr-[50px]" />
+              ) : (
+                <IoIosArrowDown className="text-[15px] sm:text-[32px] sm:mr-[50px]" />
+              )}
             </div>
+
             {visibleItems[index] && (
-              <div className="font-[Montserrat] text-[16px] sm:text-[24px] font-extralight leading-[22px] sm:leading-[29.26px] mt-2">
+              <div className=" pl-2 font-[Montserrat] text-[13px] sm:text-[24px] font-extralight leading-[12px] sm:leading-[29.26px] mt-2 pb-2 border-b border-gray-400 bg-gray-100" >
                 {item.answer}
               </div>
             )}
