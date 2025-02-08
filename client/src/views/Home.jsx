@@ -5,7 +5,7 @@ import DiamondGifts from "../components/Home/DiamondGifts";
 import Rticom from "../components/Home/RtiHome";
 import GalleryHome from "../components/Home/GalleryHome";
 import RingSlider from "../components/RingSlider/RingSlider";
-
+import Finddiamond from "../components/Home/Finddiamond";
 
 function Home() {
   return (
@@ -14,6 +14,7 @@ function Home() {
       <DiamondGifts/>
       <RingGemstone />
       <Rticom/>
+      <Finddiamond/>
       <GalleryHome/>
       <RingSlider/>
     </>
