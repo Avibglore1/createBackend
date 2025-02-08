@@ -138,7 +138,7 @@ const DiamondGifts = () => {
   };
 
   return (
-    <div className="w-full max-w-[95%] mx-auto px-4 mt-10">
+    <div className="w-full max-w-[95%] mx-auto px-0 mt-10">
       <div className="flex items-center flex-wrap justify-around mb-6 bg-[#0c2233] px-5  rounded-lg">
         <h2 className="text-2xl font-medium text-white text-center py-3">
           Gifts that ship in time for Special Occuation
