@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronUp } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { ChevronUp } from "lucide-react";
 
 const ScrollToTopButton = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -17,20 +17,20 @@ const ScrollToTopButton = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   };
 
   // Add scroll event listener
   useEffect(() => {
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
   return (
     <>
       {isVisible && (
-        <button 
+        <button
           onClick={scrollToTop}
           className="fixed bottom-4 right-4 z-50 
             bg-[#011728] text-white p-2 rounded-full 
