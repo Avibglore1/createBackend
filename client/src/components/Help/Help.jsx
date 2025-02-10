@@ -64,19 +64,19 @@ export default function Help() {
             },
             {
               question:
-                "2. What is the difference between natural and lab-grown diamonds?",
+                "4. What is the difference between natural and lab-grown diamonds?",
               answer:
                 "Natural diamonds are formed over billions of years in the Earth's mantle, while lab-grown diamonds are created in a controlled environment but have the same physical and chemical properties.",
             },
             {
-              question: "3. Is it better to buy a diamond online or in-store?",
+              question: "5. Is it better to buy a diamond online or in-store?",
               answer:
                 "Buying online from trusted retailers can offer better deals, but in-store allows you to inspect the diamond in person. Always check for return policies and certification.",
             },
           ].map((item, index) => (
             <div key={index} className="py-4">
               <div
-                className="flex justify-between font-montserrat text-[15px] sm:text-[32px] font-normal leading-[20px] sm:leading-[10px] cursor-pointer p-[8px] sm:pl-6 sm:py-[10px] border-2 border-black rounded-full"
+                className="flex justify-between font-montserrat text-[15px] sm:text-[32px] font-normal leading-[20px] sm:leading-[10px] cursor-pointer p-[8px] sm:pl-6 sm:py-[10px]"
                 onClick={() => toggleVisibility(index)}
               >
                 {item.question}
