@@ -24,7 +24,7 @@ const HeroSection = () => {
         <img
           src={Background}
           alt="back"
-          className=" relative sm:absolute sm:bottom-0 sm:left-1/2 h-[60vh] sm:h-[480px] sm:z-0 object-cover w-screen sm:px-[40px] sm:transform sm:-translate-x-1/2 "
+          className=" relative sm:absolute mb-9 sm:bottom-0 sm:left-1/2 h-[60vh] sm:h-[480px] sm:z-0 object-cover w-screen sm:px-[40px] sm:transform sm:-translate-x-1/2 "
         />
       </div>
       <div className="absolute left-1/2 text-black transform  -translate-x-1/2 -translate-y-1/2 sm:-translate-x-0 sm:-translate-y-0 sm:bottom-[60px] bottom-[0px] text-center sm:left-[70px]">
