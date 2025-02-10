@@ -13,10 +13,10 @@ function Home() {
       <HemoHero />
       <DiamondGifts/>
       <RingGemstone />
+      <RingSlider/>
       <Rticom/>
       <Finddiamond/>
       <GalleryHome/>
-      <RingSlider/>
     </>
   );
 }
