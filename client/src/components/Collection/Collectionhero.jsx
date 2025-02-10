@@ -11,11 +11,11 @@ function Collectionhero(){
              <p className="font-Montserrat  text-white text-[40px] sm:text-[66px] ">Collection of</p>
            </div>
 
-           <div className="absolute z-10 top-[140px] left-[40px] sm:top-[80px] sm:left-[160px]">
+           <div className="absolute z-10 top-[140px] left-[40px] sm:top-[100px] sm:left-[160px]">
                 <p className="font-Montserrat text-[80px] sm:text-[128px] text-white">Amulya</p>
            </div>
 
-           <div className="absolute z-10 top-[230px] left-[50px] sm:top-[220px] sm:left-[600px]">
+           <div className="absolute z-10 top-[230px] left-[50px] sm:top-[245px] sm:left-[600px]">
                 <p className="font-Montserrat text-white text-[40px] sm:text-[50px] ">Jewels</p>
            </div>
 

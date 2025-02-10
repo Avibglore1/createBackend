@@ -50,7 +50,7 @@ export default function Footer() {
         
         {/* Copyright */}
         <div className="border-t border-gray-600 mt-6 pt-4 text-center text-gray-400">
-          &copy; {new Date().getFullYear()} BrandName. All Rights Reserved.
+          &copy; {new Date().getFullYear()} Amulya Jewels. All Rights Reserved.
         </div>
       </div>
     </footer>
