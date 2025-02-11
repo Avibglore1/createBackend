@@ -112,7 +112,7 @@ function Slider() {
         <div className="space-y-16">
             {collections.map((collection, idx) => (
                 <div key={idx} className="max-w-7xl mx-auto px-4">
-                    <h1 className="text-4xl md:text-5xl mb-8 font-normal">
+                    <h1 className="text-4xl md:text-5xl font-serif mb-8 font-normal">
                         {collection.title}
                     </h1>
           
@@ -142,7 +142,7 @@ function Slider() {
 
                                         {/* Centered Text */}
                                         <div className="absolute top-4 md:top-6 left-1/2 transform -translate-x-1/2">
-                                            <h2 className="text-white text-lg md:text-2xl font-medium text-center">
+                                            <h2 className="text-white text-lg md:text-3xl font-serif font-medium text-center">
                                                 {slide.title}
                                             </h2>
                                         </div>
