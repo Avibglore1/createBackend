@@ -12,6 +12,10 @@ import Footer from "./components/Footer";
 import Account from "./components/Account/account";
 import Help from "./components/Help/Help"
 import ScrollToTopButton from './components/TopIcon'; 
+import LogIn from "./views/LogIn";
+import SignUp from "./views/SignUp";
+import ForgotPass from "./views/ForgotPass";
+
 
 
 function App() {
@@ -29,6 +33,9 @@ function App() {
           <Route path="/account" element={<Account />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/help" element={<Help />} />
+          <Route path="/logIn" element={<LogIn />} />
+          <Route path="/signUp" element={<SignUp />} />
+          <Route path="/forgotPassword" element={<ForgotPass />} />
 
           <Route path="*" element={<NotFound />} />
 
