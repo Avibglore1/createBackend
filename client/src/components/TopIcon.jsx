@@ -30,7 +30,7 @@ const ScrollToTopButton = () => {
             shadow-lg transition-transform duration-300 transform hover:scale-105"
           aria-label="Scroll to top"
           style={{
-            backgroundColor: "#011728",
+            backgroundColor: "#011728", // Button background color
             position: "fixed",
             bottom: "16px",
             right: "16px",
@@ -47,7 +47,7 @@ const ScrollToTopButton = () => {
             willChange: "background-image",
           }}
         >
-          <ChevronUp className="w-6 h-6 md:w-8 md:h-8 text-white" />
+          <ChevronUp className="w-6 h-6 md:w-8 md:h-8 text-black" /> {/* Black Arrow */}
         </button>
       )}
     </>
