@@ -13,8 +13,8 @@ const HeroSection = () => {
       <div className="absolute left-1/2 transform  -translate-x-1/2 -translate-y-1/2 sm:-translate-x-0 sm:-translate-y-0 sm:top-[165px] top-[230px] z-10 sm:left-[860px] font-normal">
         <h1 className="sm:rotate-90 text-[100px] sm:text-[45px] font-normal font-Montserrat">Jewels</h1>
       </div>
-      <div >
-        <img src={Background} alt="back" className=" relative  sm:absolute sm:bottom-0 sm:left-1/2 h-[60vh] sm:h-[515px] sm:z-0 object-cover w-screen sm:px-[40px] sm:transform sm:-translate-x-1/2  " />
+      <div className="" >
+        <img src={Background} alt="back" className=" relative  sm:absolute sm:bottom-0 sm:left-1/2 h-[60vh] sm:px-[40px] sm:h-[515px] sm:z-0 object-cover w-screen  sm:transform sm:-translate-x-1/2  " />
       </div>
       <div className="absolute left-1/2 transform  -translate-x-1/2 -translate-y-1/2 sm:-translate-x-0 sm:-translate-y-0 sm:bottom-[60px] bottom-[0px] text-center sm:left-[70px]">
         <h1 className="sm:text-[50px] text-[30px] font-Montserrat font-normal">Top Jewels</h1>
