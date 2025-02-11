@@ -1,5 +1,5 @@
 import React from "react";
-import logo from './../../assets/CollectionImg/bangle1.jpg'
+import logo from './../../assets/About/Ownerpic.png'
 
 const TeamSection = () => {
   return (
