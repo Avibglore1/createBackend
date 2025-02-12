@@ -34,7 +34,6 @@ const KnowYourDiamond = () => {
         <div className="w-full md:w-1/2 text-center md:text-left">
           <div className="space-y-6 max-w-xl">
             <div className="space-y-2">
-              <h2 className="text-2xl font-normal text-gray-700">REAL-TIME INTERACTIVE</h2>
               <h1 className="text-4xl md:text-5xl font-serif">Know Your Diamond</h1>
             </div>
             

@@ -6,7 +6,7 @@ import finddiamondthree from "./../../assets/Home/finddiamondthree.png"
 function Finddiamond() {
   return (
     <div className='relative font-Montserrat'>
-        <h1 className='relative top-5 text-6xl md:text-8xl text-[#011728] text-center'>Find Your Diamond</h1>
+        <h1 className='relative top-5 text-6xl md:text-8xl text-[#011728] text-center'>Find Your Favourite</h1>
         <div className='bg-[#011728] flex flex-col justify-center items-center gap-8 pt-14 pb-14 pl-8 pr-8'>
             <h2 className='text-4xl md:text-6xl text-white text-center font-serif'>The crowning jewels</h2>
             <p className='text-sm md:text-md text-white max-w-sm text-center p mb-1'>Our diamond and gemstone fine jewelry collection offers hand-crafted piecesof unforgettable luxury that are perfect for any occasion.  
