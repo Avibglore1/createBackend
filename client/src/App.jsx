@@ -12,6 +12,8 @@ import Footer from "./components/Footer";
 import Account from "./components/Account/account";
 import Help from "./components/Help/Help"
 import ScrollToTopButton from './components/TopIcon'; 
+import TopOrders from "./views/Admin/TopOrders";
+import Order from "./views/Admin/Order";
 
 
 function App() {
@@ -29,6 +31,8 @@ function App() {
           <Route path="/account" element={<Account />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/help" element={<Help />} />
+          <Route path="/TopOrders" element={<TopOrders/>}/>
+          <Route path="/Order" element={<Order/>}/>
 
           <Route path="*" element={<NotFound />} />
 
