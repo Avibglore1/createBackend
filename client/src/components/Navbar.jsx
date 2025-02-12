@@ -41,8 +41,6 @@ export default function Navbar() {
             <Link to="/shop" onClick={handleLinkClick} className="text-gray-400 hover:text-gray-200">Shop</Link>
             <Link to="/blog" onClick={handleLinkClick} className="text-gray-400 hover:text-gray-200">Blog</Link>
             <Link to="/help" onClick={handleLinkClick} className="text-gray-400 hover:text-gray-200">Help</Link>
-            <Link to="/TopOrders" onClick={handleLinkClick} className="text-gray-400 hover:text-gray-200">Top Orders</Link>
-            <Link to="/Order" onClick={handleLinkClick} className="text-gray-400 hover:text-gray-200">Orders</Link>
             <Link to="/cart" onClick={handleLinkClick} className="text-gray-400 hover:text-gray-200">Cart</Link>
             <Link
               to="/login"
