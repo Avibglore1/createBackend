@@ -37,5 +37,5 @@ const orderschema = new Schema({
     }
 )
 
-const orderModel = model("orderModel", orderschema);
-export default orderModel
+const OrderModel = model("orderModel", orderschema);
+export default OrderModel

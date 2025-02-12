@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 import cors from "cors";
-import OrderModel from "./model/Order.model.js"; // Ensure correct file path
+import OrderModel from "./models/Order.js"; // Ensure correct file path
 import PDFDocument from "pdfkit";
 import fs from "fs";
 import path from "path";
