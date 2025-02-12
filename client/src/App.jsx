@@ -12,6 +12,9 @@ import Footer from "./components/Footer";
 import Account from "./components/Account/account";
 import Help from "./components/Help/Help"
 import ScrollToTopButton from './components/TopIcon'; 
+import Sidebar from "./views/Admin/SIdenavbar";
+import Product from "./views/Admin/Product";
+import Customer from "./views/Admin/Customer";
 
 
 function App() {
@@ -29,6 +32,10 @@ function App() {
           <Route path="/account" element={<Account />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/help" element={<Help />} />
+          <Route path="/sidebar" element={<Sidebar />} />
+          <Route path="/product" element={<Product />} />
+          <Route path="/customer" element={<Customer />} />
+
 
           <Route path="*" element={<NotFound />} />
 
