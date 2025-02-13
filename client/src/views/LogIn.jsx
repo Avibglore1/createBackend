@@ -1,25 +1,54 @@
-import React, { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import React, { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import Logo from "../assets/logo.png";
-import { Link } from 'react-router-dom';  // Add this import
+import { Link, useNavigate } from "react-router-dom";
 
 const LogIn = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  // Handle Form Submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:5000/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Login successful!");
+        localStorage.setItem("token", data.token); // Store JWT token
+        navigate("/"); // Redirect to home page
+      } else {
+        alert(data.message); // Show error message
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="pt-16 flex justify-center min-h-[calc(100vh-64px)]">
       <div className="w-full max-w-md p-6 mt-10 bg-white rounded-lg shadow-lg">
-        {/* Logo */}
         <div className="flex justify-center mb-8">
           <img src={Logo} alt="Logo" className="h-[105px]" />
         </div>
-
-        {/* Login Text */}
         <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
-
-        {/* Form */}
-        <form className="space-y-4">
-          {/* Email Field */}
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">
               Email Address
@@ -27,6 +56,9 @@ const LogIn = () => {
             <input
               type="email"
               placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
           </div>
@@ -40,6 +72,9 @@ const LogIn = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
               <button
@@ -62,9 +97,10 @@ const LogIn = () => {
           {/* Login Button */}
           <button
             type="submit"
+            disabled={loading}
             className="w-full py-2 px-4 bg-black text-white rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
 
           {/* Register Link */}

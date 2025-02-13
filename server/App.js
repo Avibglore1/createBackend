@@ -2,17 +2,20 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Razorpay from "razorpay";
-import crypto from "crypto";
+import crypto, { verify } from "crypto";
 import cors from "cors";
 import OrderModel from "./models/Order.js"; // Ensure correct file path
 import PDFDocument from "pdfkit";
 import fs from "fs";
 import path from "path";
+import router from "./routes/user.js";
 dotenv.config();
 
 const __dirname = path.resolve();
 const app = express();
 app.use(express.json());
+
+
 
 // Enable CORS for frontend communication
 // app.use(cors({
@@ -22,6 +25,7 @@ app.use(express.json());
 // }));
 
 app.use(cors());
+app.use("/", router);
 
 
 const PORT = process.env.PORT || 5000;
