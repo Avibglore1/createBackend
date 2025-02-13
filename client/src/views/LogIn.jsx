@@ -31,7 +31,9 @@ const LogIn = () => {
         localStorage.setItem("token", data.token); // Store JWT token
         navigate("/"); // Redirect to home page
       } else {
-        alert(data.message); // Show error message
+        alert(data.message);  // Show error message
+        setEmail('');
+        setPassword('');
       }
     } catch (error) {
       console.error("Login Error:", error);
