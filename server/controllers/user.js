@@ -11,73 +11,80 @@ export const register = TryCatch(async (req, res) => {
 
   if (user)
     return res.status(400).json({
-      message: "User Already exists",
+      message: "User already exists",
     });
 
   const hashPassword = await bcrypt.hash(password, 10);
 
-  user = {
+  user = new User({
     name,
     email,
     password: hashPassword,
-  };
+  });
 
-  const otp = Math.floor(Math.random() * 1000000);
+  const otp = String(Math.floor(100000 + Math.random() * 900000)); // Ensures 6-digit OTP
 
   const activationToken = jwt.sign(
-    {
-      user,
-      otp,
-    },
+    { email, name, password: hashPassword, otp }, 
     process.env.Activation_Secret,
-    {
-      expiresIn: "10m",
-    }
+    { expiresIn: "10m" }
   );
 
-  const data = {
-    name,
-    otp,
-  };
-
-  await sendMail(email, "Gangstaa Clothing Brand", data);
+  try {
+    console.log("Sending OTP email...");
+    await sendMail(email, "Amulya Jewels", { name, otp });
+    console.log("OTP email sent.");
+  } catch (error) {
+    console.error("Failed to send OTP email:", error);
+    return res.status(500).json({ message: "Failed to send OTP email" });
+  }
 
   res.status(200).json({
-    message: "Otp send to your email address",
+    message: "OTP sent to your email address",
     activationToken,
   });
 });
 
 export const verifyUser = TryCatch(async (req, res) => {
+  
   const { otp, activationToken } = req.body;
+
   if (!otp || !activationToken) {
-    console.log("No otp");
+    return res.status(400).json({ message: "OTP and activationToken required" });
   }
 
-  const verify = jwt.verify(activationToken, process.env.Activation_Secret);
+  let verify;
+  try {
+    verify = jwt.verify(activationToken, process.env.Activation_Secret);
+  } catch (error) {
+    return res.status(400).json({ message: "OTP expired or invalid token" });
+  }
 
-  if (!verify)
-    return res.status(400).json({
-      message: "Otp Expired",
-    });
-  console.log("Otp Expired");
+   if (verify.otp !== otp) {
+    return res.status(400).json({ message: "Wrong OTP" });
+  }
 
-  if (verify.otp !== otp)
-    return res.status(400).json({
-      message: "Wrong Otp",
-    });
-  console.log("wrong OTP");
+  // Ensure verify.user exists
+  if (!verify.email || !verify.name) {
+    return res.status(400).json({ message: "Invalid token data" });
+  }
+
+  // Check if user already exists
+  const existingUser = await User.findOne({ email: verify.email });
+  if (existingUser) {
+    return res.status(400).json({ message: "User already registered" });
+  }
 
   await User.create({
-    name: verify.user.name,
-    email: verify.user.email,
-    password: verify.user.password,
+    name: verify.name,
+    email: verify.email,
+    password: verify.password, // Ensure password is hashed before storing
   });
 
-  res.json({
-    message: "User Registered",
-  });
+  res.json({ message: "User Registered" });
 });
+
+
 
 export const loginUser = TryCatch(async (req, res) => {
   const { email, password } = req.body;
@@ -234,55 +241,7 @@ export const deleteOneUser = async (req, res) => {
   }
 };
 
-// Registration API
 
-// export const register = TryCatch(async(req, res) => {
-//     const { email, name, surname, password, phone, address } = req.body;
-
-//     // Check if user already exists
-//     let user = await User.findOne({ email });
-//     if (user) {
-//         return res.status(400).json({
-//             message: "User already exists",
-//         });
-//     }
-
-//     // Hash the password
-//     const hashPassword = await bcrypt.hash(password, 10);
-
-//     // Create a new user
-//     user = await User.create({
-//         name,
-//         email,
-//         password: hashPassword,
-//     });
-
-//     // Create or update the user profile
-//     let userProfile = await UserProfile.findOne({ email });
-
-//     if (userProfile) {
-//         // Update existing profile
-//         userProfile.surname = surname;
-//         userProfile.phone = phone;
-//         userProfile.address = address;
-//         await userProfile.save();
-//     } else {
-//         // Create a new profile
-//         userProfile = new UserProfile({
-//             name,
-//             surname,
-//             email,
-//             phone,
-//             address,
-//         });
-//         await userProfile.save();
-//     }
-
-//     // Return success response
-//     res.status(201).json({
-//         message: "User registered and profile created successfully",
-//     });
-// });
 
 export const updateRole = async (req, res) => {
   try {
@@ -302,7 +261,7 @@ export const updateRole = async (req, res) => {
       await sendMail(
         user.email,
         "Role Updated",
-        "Your Role is Updated for the gangstaa Project"
+        "Your Role is Updated for the Amulya Jewels Project"
       );
 
       await user.save();
@@ -318,7 +277,7 @@ export const updateRole = async (req, res) => {
       await sendMail(
         user.email,
         "Role Updated",
-        "Your Role is Updated for the gangstaa Project"
+        "Your Role is Updated for the Amulya Jewels Project"
       );
 
       await user.save();

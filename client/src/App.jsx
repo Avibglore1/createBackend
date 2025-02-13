@@ -20,6 +20,7 @@ import TopOrders from "./views/Admin/TopOrders";
 import Order from "./views/Admin/Order";
 import LogIn from "./views/LogIn";
 import SignUp from "./views/SignUp";
+import VerifyUser from "./views/VerifyUser";
 import ForgotPass from "./views/ForgotPass";
 
 
@@ -49,6 +50,7 @@ function App() {
 
           <Route path="/logIn" element={<LogIn />} />
           <Route path="/signUp" element={<SignUp />} />
+          <Route path="/user/verify" element={<VerifyUser />} />
           <Route path="/forgotPassword" element={<ForgotPass />} />
 
 
