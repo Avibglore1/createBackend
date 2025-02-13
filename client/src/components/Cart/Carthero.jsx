@@ -20,6 +20,79 @@ function CartHero() {
   const taxes = cart.length > 0 ? 3 : 0;
   const total = subtotal + shipping + taxes;
 
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
+  const handlePayment = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/payment/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: "Harsh Rawate",
+          mobileNo: "1234567890",
+          email: "harsh@example.com",
+          address: "Pune, Maharashtra",
+          amount: total,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        alert("Error in payment. Try again!");
+        return;
+      }
+
+      const options = {
+        key: "rzp_live_uZqf3G3ZLTSKbH", // Replace with actual key
+        amount: data.order.amount,
+        currency: "INR",
+        name: "Amulya Jevels",
+        description: "Test Transaction",
+        order_id: data.order.id,
+        handler: async function (response) {
+          const verifyRes = await fetch("http://localhost:5000/api/payment/payment-verification", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature,
+            }),
+          });
+
+          if (verifyRes.ok) {
+            window.location.href = `http://localhost:3000/success?payment_id=${response.razorpay_payment_id}`;
+          } else {
+            window.location.href = "http://localhost:3000/failed";
+          }
+        },
+        prefill: {
+          name: "Harsh Rawate",
+          email: "harsh@example.com",
+          contact: "1234567890",
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      console.error("Payment Error:", error);
+    }
+  };
+
   return (
     <div className="bg-white">
       <div className="max-w-[90rem] mx-auto p-4 sm:p-6 mb-24">
@@ -86,7 +159,10 @@ function CartHero() {
                     <span className="font-semibold">${total}/-</span>
                   </div>
                 </div>
-                <button className="w-full bg-black text-white rounded-full py-3.5 mt-6 hover:bg-gray-800 transition-colors text-sm font-medium">
+                <button
+                  onClick={handlePayment}
+                  className="w-full bg-black text-white rounded-full py-3.5 mt-6 hover:bg-gray-800 transition-colors text-sm font-medium"
+                >
                   Proceed to Pay
                 </button>
               </div>
