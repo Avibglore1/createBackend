@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CartImage from "../../assets/cartimg/cart.png";
 
 function CartHero() {
   const [cart, setCart] = useState([]);
+  const [user, setUser] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(savedCart);
+    const savedUser = JSON.parse(localStorage.getItem("user")) || {};
+    setUser(savedUser);
   }, []);
 
   const handleRemoveItem = (index) => {
@@ -18,7 +23,7 @@ function CartHero() {
   const subtotal = cart.reduce((total, item) => total + item.price, 0);
   const shipping = cart.length > 0 ? 5 : 0;
   const taxes = cart.length > 0 ? 3 : 0;
-  const total = subtotal + shipping + taxes;
+  const total = (subtotal + shipping + taxes); // Convert to paise for Razorpay
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -31,65 +36,61 @@ function CartHero() {
     try {
       const response = await fetch("http://localhost:5000/api/payment/checkout", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: "Harsh Rawate",
-          mobileNo: "1234567890",
-          email: "harsh@example.com",
-          address: "Pune, Maharashtra",
+          name: user.name || "Guest",
+          mobileNo: user.mobileNo || "0000000000",
+          email: user.email || "guest@example.com",
+          address: user.address || "Unknown",
           amount: total,
         }),
       });
 
       const data = await response.json();
-
       if (!data.success) {
         alert("Error in payment. Try again!");
         return;
       }
 
       const options = {
-        key: "rzp_live_uZqf3G3ZLTSKbH", // Replace with actual key
+        key: "rzp_live_uZqf3G3ZLTSKbH",
         amount: data.order.amount,
         currency: "INR",
-        name: "Amulya Jevels",
-        description: "Test Transaction",
+        name: "Amulya Jewels",
+        description: "Order Payment",
         order_id: data.order.id,
         handler: async function (response) {
-          const verifyRes = await fetch("http://localhost:5000/api/payment/payment-verification", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_signature: response.razorpay_signature,
-            }),
-          });
+          try {
+            const verifyRes = await fetch("http://localhost:5000/api/payment/payment-verification", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(response),
+            });
 
-          if (verifyRes.ok) {
-            window.location.href = `http://localhost:3000/success?payment_id=${response.razorpay_payment_id}`;
-          } else {
-            window.location.href = "http://localhost:3000/failed";
+            const verifyData = await verifyRes.json();
+            if (verifyData.success) {
+              navigate(`/success/${verifyData.payment_id}`); // Corrected navigation
+            } else {
+              navigate("/failed");
+            }
+          } catch (error) {
+            console.error("Payment Verification Error:", error);
+            navigate("/failed");
           }
         },
         prefill: {
-          name: "Harsh Rawate",
-          email: "harsh@example.com",
-          contact: "1234567890",
+          name: user.name || "Guest",
+          email: user.email || "guest@example.com",
+          contact: user.mobileNo || "0000000000",
         },
-        theme: {
-          color: "#3399cc",
-        },
+        theme: { color: "#3399cc" },
       };
 
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error) {
       console.error("Payment Error:", error);
+      alert("Payment failed! Try again.");
     }
   };
 
@@ -129,12 +130,6 @@ function CartHero() {
             ) : (
               <p className="text-gray-500 text-lg">Your cart is empty.</p>
             )}
-
-            <div className="flex justify-center w-full">
-              <button className="group flex items-center text-gray-600 hover:text-gray-800 text-xl md:text-3xl transition-colors">
-                Continue Shopping →
-              </button>
-            </div>
           </div>
 
           <div className="lg:col-span-1">
@@ -146,11 +141,11 @@ function CartHero() {
                   <span className="font-semibold">${subtotal}/-</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Shipping Charge</span>
+                  <span className="text-gray-600">Shipping</span>
                   <span className="font-semibold">${shipping}/-</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Taxes / Duty</span>
+                  <span className="text-gray-600">Taxes</span>
                   <span className="font-semibold">${taxes}/-</span>
                 </div>
                 <div className="pt-6 border-t border-[#ACACAC]">
@@ -159,10 +154,7 @@ function CartHero() {
                     <span className="font-semibold">${total}/-</span>
                   </div>
                 </div>
-                <button
-                  onClick={handlePayment}
-                  className="w-full bg-black text-white rounded-full py-3.5 mt-6 hover:bg-gray-800 transition-colors text-sm font-medium"
-                >
+                <button onClick={handlePayment} className="w-full bg-black text-white rounded-full py-3.5 mt-6 hover:bg-gray-800 transition-colors text-sm font-medium">
                   Proceed to Pay
                 </button>
               </div>

@@ -36,7 +36,7 @@ export default function Shop() {
   const products = Array.from({ length: 6 }, (_, idx) => ({
     id: `prod-${idx}`,
     title: "14k White Gold 2.0mm Slightly Curved Wedding Ring",
-    price: 20,
+    price: 28,
   }));
 
   return (
