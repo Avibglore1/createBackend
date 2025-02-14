@@ -13,7 +13,11 @@ import {
 import { isAuth } from "../middlewares/isAuth.js";
 
 
+
+
 const router = express.Router();
+
+
 
 router.post("/api/register", register);
 router.post("/user/verify", verifyUser);
