@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import aboutMainbg from "../../assets/About/Mainbg.png";
 import AboutJewels from "../../components/AboutUs/AboutJewels";
 import DesignCustom from "../../components/AboutUs/DesignCustom";
@@ -30,21 +30,22 @@ const JewelryHeader = () => {
           <div className="relative">
             {/* Amulya text */}
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-serif text-white font-extralight tracking-wide leading-none">
-              Amuly<span className="relative inline-block">a
-                {/* Jewels text - responsive positioning */}
-                <span 
+              Amuly
+              <span className="relative inline-block">
+                a{/* Jewels text - responsive positioning */}
+                <span
                   className="absolute left-0 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white font-extralight tracking-widest whitespace-nowrap"
-                  style={{ 
-                    top: 'calc(100% + 0.5rem)',
-                    '@media (min-width: 640px)': {
-                      top: 'calc(100% + 0.75rem)'
+                  style={{
+                    top: "calc(100% + 0.5rem)",
+                    "@media (min-width: 640px)": {
+                      top: "calc(100% + 0.75rem)",
                     },
-                    '@media (min-width: 768px)': {
-                      top: 'calc(100% + 1rem)'
+                    "@media (min-width: 768px)": {
+                      top: "calc(100% + 1rem)",
                     },
-                    '@media (min-width: 1024px)': {
-                      top: 'calc(100% + 1.25rem)'
-                    }
+                    "@media (min-width: 1024px)": {
+                      top: "calc(100% + 1.25rem)",
+                    },
                   }}
                 >
                   Jewels
@@ -54,10 +55,9 @@ const JewelryHeader = () => {
           </div>
         </div>
       </div>
-    <AboutJewels/>
-    <DesignCustom/>
-    <OurTeam/>
-
+      <AboutJewels />
+      <DesignCustom />
+      <OurTeam />
     </div>
   );
 };
