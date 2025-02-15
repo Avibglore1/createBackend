@@ -4,39 +4,50 @@ import { useNavigate } from "react-router-dom";
 const VerifyUser = () => {
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   // Handle OTP input change
   const handleChange = (e) => {
     setOtp(e.target.value);
+    setError(null); // Reset error when user types
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!otp) {
+      setError("Please enter the OTP.");
+      return;
+    }
+
+    const activationToken = localStorage.getItem("activationToken");
+    if (!activationToken) {
+      setError("Activation token missing. Please register again.");
+      return;
+    }
+
     setLoading(true);
 
     try {
-        const activationToken = localStorage.getItem("activationToken");
-      const response = await fetch("http://localhost:5000/user/verify", {
+      const response = await fetch("http://localhost:5000/api/auth/verify", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ otp, activationToken }),
       });
 
       const data = await response.json();
+
       if (response.ok) {
         alert("OTP verified successfully!");
         localStorage.removeItem("activationToken");
         navigate("/login"); // Redirect after successful verification
       } else {
-        alert(data.message); // Show error message
+        setError(data.message || "Invalid OTP. Please try again.");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Something went wrong, please try again.");
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -47,6 +58,9 @@ const VerifyUser = () => {
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
         {/* Heading */}
         <h2 className="text-2xl font-semibold text-center mb-6">Verify OTP</h2>
+
+        {/* Error Message */}
+        {error && <p className="text-red-600 text-center mb-4">{error}</p>}
 
         {/* Form */}
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -70,7 +84,11 @@ const VerifyUser = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 px-4 bg-black text-white rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 text-lg"
+            className={`w-full py-2 px-4 rounded-md text-lg ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-black text-white hover:bg-gray-800"
+            }`}
           >
             {loading ? "Verifying..." : "Verify OTP"}
           </button>

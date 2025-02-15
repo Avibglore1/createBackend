@@ -15,15 +15,13 @@ import ScrollToTopButton from './components/TopIcon';
 import Sidebar from "./views/Admin/SIdenavbar";
 import Product from "./views/Admin/Product";
 import Customer from "./views/Admin/Customer";
-
+import ProtectedRoute from "./components/ProtectedRoute";
 import TopOrders from "./views/Admin/TopOrders";
 import Order from "./views/Admin/Order";
 import LogIn from "./views/LogIn";
 import SignUp from "./views/SignUp";
 import VerifyUser from "./views/VerifyUser";
 import ForgotPass from "./views/ForgotPass";
-import SuccessPage from "./components/Cart/SuccessPage";
-import FailPage from "./components/Cart/FailPage";
 
 
 
@@ -34,7 +32,9 @@ function App() {
       <Routes>
       
         <Route>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<ProtectedRoute>
+          {<Home/>}
+          </ProtectedRoute>} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/collection" element={<Collection />} />
@@ -52,8 +52,6 @@ function App() {
 
           <Route path="/logIn" element={<LogIn />} />
           <Route path="/signUp" element={<SignUp />} />
-          <Route path='/success/:paymentid' element={<SuccessPage/>} />
-          <Route path='/failed' element={<FailPage/>} />
           <Route path="/user/verify" element={<VerifyUser />} />
           <Route path="/forgotPassword" element={<ForgotPass />} />
 
