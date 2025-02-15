@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react"; // ✅ Added useEffect Import
+import React, { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import Logo from "../assets/logo.png";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast"; // ✅ Import Toast
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
@@ -22,7 +23,7 @@ const LogIn = () => {
 
   const from = location.state?.from?.pathname || "/";
 
-  // ✅ Handle Login Submission
+  // ✅ Handle Login Submission with Toasts
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -39,14 +40,16 @@ const LogIn = () => {
         login(data.token); // ✅ Store Token via Context
         setEmail("");
         setPassword("");
-        // alert("Login successful!");
-        navigate(from, { replace: true });
+        toast.success("Login successful! 🎉"); // ✅ Success Toast
+        setTimeout(() => {
+          navigate(from, { replace: true });
+        }, 1000);
       } else {
-        alert(data.message || "Invalid email or password.");
+        toast.error(data.message || "Invalid email or password."); // ✅ Error Toast
       }
     } catch (error) {
       console.error("Login Error:", error);
-      alert("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again!"); // ✅ Error Toast
     } finally {
       setLoading(false);
     }
@@ -63,19 +66,10 @@ const LogIn = () => {
 
         {/* ✅ Login Form */}
         <form className="space-y-4" onSubmit={handleSubmit} autoComplete="off">
-           {/* Trick Autofill */}
-           <input
-            type="text"
-            name="hidden-username"
-            autoComplete="username"
-            className="hidden"
-          />
-          <input
-            type="password"
-            name="hidden-password"
-            autoComplete="new-password"
-            className="hidden"
-          />
+          {/* Trick Autofill */}
+          <input type="text" name="hidden-username" autoComplete="username" className="hidden" />
+          <input type="password" name="hidden-password" autoComplete="new-password" className="hidden" />
+          
           {/* Email */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700">Email Address</label>

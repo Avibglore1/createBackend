@@ -22,12 +22,15 @@ import LogIn from "./views/LogIn";
 import SignUp from "./views/SignUp";
 import VerifyUser from "./views/VerifyUser";
 import ForgotPass from "./views/ForgotPass";
+import { Toaster } from "react-hot-toast";
 
 
 
 function App() {
   return (
-    <Router>
+    <>
+     <Toaster position="top-center" reverseOrder={false} />
+      <Router>
         <Navbar/>
       <Routes>
       
@@ -63,6 +66,8 @@ function App() {
       <ScrollToTopButton />
       <Footer/>
     </Router>
+    </>
+    
   );
 }
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast"; 
 
 const VerifyUser = () => {
   const [otp, setOtp] = useState("");
@@ -39,7 +40,7 @@ const VerifyUser = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert("OTP verified successfully!");
+        toast.success("SignIn successfull 🎉");
         localStorage.removeItem("activationToken");
         navigate("/login"); // Redirect after successful verification
       } else {
