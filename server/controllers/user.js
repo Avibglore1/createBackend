@@ -1,149 +1,139 @@
 import { User } from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import sendMail, { sendForgotMail } from "./../middlewares/sendMail.js";
-import TryCatch from "../middlewares/TryCatch.js";
+import sendRegisterMail, { sendForgotMail } from "../utilities/sendMail.js";
+import {TryCatch} from "./../utilities/TryCatch.js";
 
-export const register = TryCatch(async (req, res) => {
+export const registerUser = TryCatch(async (req, res) => {
   const { email, name, password } = req.body;
 
   let user = await User.findOne({ email });
 
-  if (user)
-    return res.status(400).json({
-      message: "User already exists",
-    });
+  if (user) return res.status(400).json({ message: "User already exists" });
 
   const hashPassword = await bcrypt.hash(password, 10);
-
-  user = new User({
-    name,
-    email,
-    password: hashPassword,
-  });
-
-  const otp = String(Math.floor(100000 + Math.random() * 900000)); // Ensures 6-digit OTP
+  const otp = String(Math.floor(100000 + Math.random() * 900000));
 
   const activationToken = jwt.sign(
-    { email, name, password: hashPassword, otp }, 
-    process.env.Activation_Secret,
+    { email, name, password: hashPassword, otp },
+    process.env.Jwt_Sec,
     { expiresIn: "10m" }
   );
 
   try {
-    console.log("Sending OTP email...");
-    await sendMail(email, "Amulya Jewels", { name, otp });
-    console.log("OTP email sent.");
+    await sendRegisterMail(email, "Amulya Jewels", { name, otp });
   } catch (error) {
-    console.error("Failed to send OTP email:", error);
     return res.status(500).json({ message: "Failed to send OTP email" });
   }
 
-  res.status(200).json({
-    message: "OTP sent to your email address",
-    activationToken,
-  });
+  res.status(200).json({ message: "OTP sent", activationToken });
 });
 
+
 export const verifyUser = TryCatch(async (req, res) => {
-  
   const { otp, activationToken } = req.body;
 
   if (!otp || !activationToken) {
-    return res.status(400).json({ message: "OTP and activationToken required" });
+    return res.status(400).json({ message: "OTP and activation token are required." });
   }
 
-  let verify;
+  let decodedData;
   try {
-    verify = jwt.verify(activationToken, process.env.Activation_Secret);
+    // ✅ Decode the activation token first
+    decodedData = jwt.verify(activationToken, process.env.Jwt_Sec);
   } catch (error) {
-    return res.status(400).json({ message: "OTP expired or invalid token" });
+    return res.status(400).json({ message: "Invalid or expired activation token." });
   }
 
-   if (verify.otp !== otp) {
-    return res.status(400).json({ message: "Wrong OTP" });
+  // ✅ Extract data from the decoded token
+  const { email, name, password, otp: storedOtp } = decodedData;
+
+  // ✅ Check if the OTP matches
+  if (storedOtp !== otp) {
+    return res.status(400).json({ message: "Wrong OTP. Please try again." });
   }
 
-  // Ensure verify.user exists
-  if (!verify.email || !verify.name) {
-    return res.status(400).json({ message: "Invalid token data" });
-  }
-
-  // Check if user already exists
-  const existingUser = await User.findOne({ email: verify.email });
+  // ✅ Check if user already exists
+  const existingUser = await User.findOne({ email });
   if (existingUser) {
-    return res.status(400).json({ message: "User already registered" });
+    return res.status(400).json({ message: "User already registered. Please log in." });
   }
 
+  // ✅ Save the new user to the database
   await User.create({
-    name: verify.name,
-    email: verify.email,
-    password: verify.password, // Ensure password is hashed before storing
+    name,
+    email,
+    password, // Ensure password is hashed before storing
   });
 
-  res.json({ message: "User Registered" });
+  res.json({ message: "User registered successfully!" });
 });
-
 
 
 export const loginUser = TryCatch(async (req, res) => {
   const { email, password } = req.body;
 
+  // Find user by email
   const user = await User.findOne({ email });
 
-  if (!user)
-    return res.status(400).json({
-      message: "No User with this email",
+  // Check if user exists and if password matches
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    return res.status(401).json({
+      message: "Invalid email or password",
     });
+  }
 
-  const mathPassword = await bcrypt.compare(password, user.password);
+  // Create JWT token with user ID and role
+  const token = jwt.sign(
+    { _id: user._id, role: user.role },
+    process.env.Jwt_Sec,
+    { expiresIn: "15d" }
+  );
 
-  if (!mathPassword)
-    return res.status(400).json({
-      message: "wrong Username or Password",
-    });
-
-  const token = jwt.sign({ _id: user._id }, process.env.Jwt_Sec, {
-    expiresIn: "15d",
-  });
-
-  res.json({
+  // Send response without sensitive data
+  res.status(200).json({
     message: `Welcome back ${user.name}`,
     token,
+    user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    },
+  });
+});
+
+
+export const myProfile = TryCatch(async (req, res) => {
+  const user = await User.findById(req.user._id).select("-password"); // Exclude password
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  res.status(200).json({
+    message: "Profile fetched successfully",
     user,
   });
 });
 
-export const myProfile = TryCatch(async (req, res) => {
-  const user = await User.findById(req.user._id);
-
-  res.json({ user });
-});
 
 export const forgotPassword = TryCatch(async (req, res) => {
   const { email } = req.body;
 
   const user = await User.findOne({ email });
+  if (!user) return res.status(404).json({ message: "No User with this email" });
 
-  if (!user)
-    return res.status(404).json({
-      message: "No User with this email",
-    });
+  const token = jwt.sign({ email }, process.env.Forgot_Secret, { expiresIn: "5m" });
 
-  const token = jwt.sign({ email }, process.env.Forgot_Secret);
-
-  const data = { email, token };
-
-  await sendForgotMail("E learning", data);
+  await sendForgotMail(email, { email, token }); // Fixed incorrect parameter
 
   user.resetPasswordExpire = Date.now() + 5 * 60 * 1000;
-
   await user.save();
 
-  res.json({
-    message: "Reset Password Link is send to you mail",
-  });
+  res.json({ message: "Reset password link sent to your email" });
 });
+
 
 export const resetPassword = TryCatch(async (req, res) => {
   const decodedData = jwt.verify(req.query.token, process.env.Forgot_Secret);
@@ -155,7 +145,7 @@ export const resetPassword = TryCatch(async (req, res) => {
       message: "No user with this email",
     });
 
-  if (user.resetPasswordExpire === null)
+  if (!user.resetPasswordExpire)
     return res.status(400).json({
       message: "Token Expired",
     });
@@ -177,13 +167,8 @@ export const resetPassword = TryCatch(async (req, res) => {
   res.json({ message: "Password Reset" });
 });
 
-//  get all users
-export const getAllusers = async (req, res) => {
-  if (req.user.role !== "admin")
-    return res.status(403).json({
-      message: "Unauthorized", // condition for checking user role
-    });
 
+export const getAllusers = async (req, res) => {
   try {
     const data = await User.find();
     const userslist = data;
@@ -200,14 +185,8 @@ export const getAllusers = async (req, res) => {
   }
 };
 
-// delete one users
 
 export const deleteOneUser = async (req, res) => {
-  if (req.user.role !== "admin")
-    return res.status(403).json({
-      message: "Unauthorized", // condition for checking user role
-    });
-
   try {
     const userId = req.params.id;
     if (!userId) {
@@ -217,9 +196,7 @@ export const deleteOneUser = async (req, res) => {
         error: true,
       });
     }
-
     const user = await User.findByIdAndDelete(userId);
-
     if (!user) {
       return res.status(404).json({
         message: "User not found",
@@ -227,7 +204,6 @@ export const deleteOneUser = async (req, res) => {
         error: true,
       });
     }
-
     res.json({
       message: "User deleted successfully",
       success: true,
@@ -242,53 +218,19 @@ export const deleteOneUser = async (req, res) => {
 };
 
 
-
 export const updateRole = async (req, res) => {
   try {
-    if (req.user.role !== "admin") {
-      return res.status(403).json({
-        message: "This is admin route",
-      });
-    }
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-    const id = req.params.id;
+    user.role = user.role === "admin" ? "user" : "admin"; // Toggle role
 
-    const user = await User.findOne({ _id: id });
+    await sendMail(user.email, "Role Updated", `Your role has been updated to ${user.role} in Amulya Jewels.`);
 
-    if (user.role === "admin") {
-      user.role = "user";
+    await user.save();
 
-      await sendMail(
-        user.email,
-        "Role Updated",
-        "Your Role is Updated for the Amulya Jewels Project"
-      );
-
-      await user.save();
-
-      return res.json({
-        message: "user Role updated",
-      });
-    }
-
-    if (user.role === "user") {
-      user.role = "admin";
-
-      await sendMail(
-        user.email,
-        "Role Updated",
-        "Your Role is Updated for the Amulya Jewels Project"
-      );
-
-      await user.save();
-
-      return res.json({
-        message: "user Role updated",
-      });
-    }
+    res.json({ message: "User role updated", newRole: user.role });
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    res.status(500).json({ message: error.message });
   }
 };
