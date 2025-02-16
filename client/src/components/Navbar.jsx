@@ -18,7 +18,7 @@ export default function Navbar() {
 
   // ✅ Handle Navigation & Popup
   const handleLinkClick = (path) => {
-    if (path === "/" && !isAuthenticated) {
+    if (path === "/cart" && !isAuthenticated) {
       setShowPopup(true); // ✅ Show popup if user is not authenticated
       return;
     }

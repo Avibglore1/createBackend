@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CartImage from "../../assets/cartimg/cart.png";
+import { IoMdRemove, IoMdAdd } from "react-icons/io";
 
 function CartHero() {
   const [cart, setCart] = useState([]);
@@ -14,16 +15,23 @@ function CartHero() {
     setUser(savedUser);
   }, []);
 
-  const handleRemoveItem = (index) => {
-    const updatedCart = cart.filter((_, i) => i !== index);
+  const handleQuantityChange = (index, type) => {
+    let updatedCart = [...cart];
+
+    if (type === "increase") {
+      updatedCart[index].quantity += 1;
+    } else if (type === "decrease" && updatedCart[index].quantity > 1) {
+      updatedCart[index].quantity -= 1;
+    }
+
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  const subtotal = cart.reduce((total, item) => total + item.price, 0);
+  const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
   const shipping = cart.length > 0 ? 5 : 0;
   const taxes = cart.length > 0 ? 3 : 0;
-  const total = (subtotal + shipping + taxes); // Convert to paise for Razorpay
+  const total = subtotal + shipping + taxes;
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -69,7 +77,7 @@ function CartHero() {
 
             const verifyData = await verifyRes.json();
             if (verifyData.success) {
-              navigate(`/success/${verifyData.payment_id}`); // Corrected navigation
+              navigate(`/success/${verifyData.payment_id}`);
             } else {
               navigate("/failed");
             }
@@ -118,9 +126,21 @@ function CartHero() {
                           <span className="text-xl font-semibold">${item.price}/-</span>
                         </div>
                       </div>
-                      <div className="flex gap-4 mt-auto pt-4">
-                        <button onClick={() => handleRemoveItem(index)} className="text-gray-600 text-sm hover:text-gray-800">
-                          REMOVE
+
+                      {/* Quantity Selector */}
+                      <div className="flex items-center space-x-3 bg-gray-200 p-2 rounded-md mt-4 w-fit">
+                        <button
+                          onClick={() => handleQuantityChange(index, "decrease")}
+                          className="p-2 bg-gray-300 rounded-full hover:bg-gray-400"
+                        >
+                          <IoMdRemove size={18} />
+                        </button>
+                        <span className="text-lg font-semibold">{item.quantity}</span>
+                        <button
+                          onClick={() => handleQuantityChange(index, "increase")}
+                          className="p-2 bg-gray-300 rounded-full hover:bg-gray-400"
+                        >
+                          <IoMdAdd size={18} />
                         </button>
                       </div>
                     </div>

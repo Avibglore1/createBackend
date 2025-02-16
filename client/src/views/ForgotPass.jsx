@@ -1,59 +1,45 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import axios from "axios";
+import { useState } from "react";
 
-const ForgotPass = () => {
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [btnLoading, setBtnLoading] = useState(false);
-  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setBtnLoading(true);
-    try {
-      const { data } = await axios.post(`${import.meta.env.VITE_SERVER}/api/user/forgot`, { email });
-      toast.success(data.message);
-      navigate("/login");
-      setBtnLoading(false);
-    } catch (error) {
-      toast.error(error.response.data.message);
-      setBtnLoading(false);
-    }
+
+    const response = await fetch("http://localhost:5000/api/auth/forgot-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    console.log('waiting for data')
+    const data = await response.json();
+    console.log(data);
+    setMessage(data.message);
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white shadow-lg rounded-lg">
-        <h2 className="text-3xl font-bold text-center text-gray-900">Forgot Password</h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="flex flex-col">
-            <label htmlFor="email" className="text-gray-700">
-              Enter Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full p-3 mt-2 text-gray-900 border rounded-md focus:outline-none focus:ring focus:ring-black focus:border-black"
-              placeholder="you@example.com"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={btnLoading}
-            className={`w-full py-3 mt-6 font-medium text-white bg-black rounded-md focus:outline-none focus:ring-1 focus:ring-black focus:ring-offset-1 hover:bg-gray-500 ${
-              btnLoading ? "cursor-not-allowed opacity-50" : ""
-            }`}
-          >
-            {btnLoading ? "Please Wait..." : "Forgot Password"}
-          </button>
-        </form>
-      </div>
-    </div>
+    <div className="flex items-center justify-center min-h-[90vh] bg-gray-100">
+  <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    <h2 className="text-2xl font-bold text-center mb-4">Forgot Password</h2>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <input
+        type="email"
+        placeholder="Enter your email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+        className="w-full p-3 border rounded-lg"
+      />
+      <button type="submit" className="w-full bg-blue-500 text-white p-3 rounded-lg font-semibold">
+        Reset Password
+      </button>
+    </form>
+    {message && <p className="mt-4 text-center text-green-600">{message}</p>}
+  </div>
+</div>
+
   );
 };
 
-export default ForgotPass;
+export default ForgotPassword;

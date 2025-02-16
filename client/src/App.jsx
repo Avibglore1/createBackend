@@ -21,9 +21,9 @@ import Order from "./views/Admin/Order";
 import LogIn from "./views/LogIn";
 import SignUp from "./views/SignUp";
 import VerifyUser from "./views/VerifyUser";
-import ForgotPass from "./views/ForgotPass";
+import ForgotPassword from "./views/ForgotPass"
 import { Toaster } from "react-hot-toast";
-
+import ResetPassword from "./views/ResetPass";
 
 
 function App() {
@@ -35,15 +35,15 @@ function App() {
       <Routes>
       
         <Route>
-          <Route path="/" element={<ProtectedRoute>
-          {<Home/>}
-          </ProtectedRoute>} />
+          <Route path="/" element={<Home/>} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/collection" element={<Collection />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/account" element={<Account />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/cart" element={<ProtectedRoute>
+          {<Cart/>}
+          </ProtectedRoute>} />
           <Route path="/help" element={<Help />} />
           <Route path="/sidebar" element={<Sidebar />} />
           <Route path="/product" element={<Product />} />
@@ -56,8 +56,8 @@ function App() {
           <Route path="/logIn" element={<LogIn />} />
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/user/verify" element={<VerifyUser />} />
-          <Route path="/forgotPassword" element={<ForgotPass />} />
-
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword/>}/>
 
           <Route path="*" element={<NotFound />} />
 
