@@ -10,23 +10,29 @@ function CartHero() {
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(savedCart);
-    const savedUser = JSON.parse(localStorage.getItem("user")) || {};
-    setUser(savedUser);
+    const filteredCart = savedCart.filter(item => item.quantity > 0); // Remove items with quantity 0
+    setCart(filteredCart);
+    localStorage.setItem("cart", JSON.stringify(filteredCart));
   }, []);
 
   const handleQuantityChange = (index, type) => {
     let updatedCart = [...cart];
-
+  
     if (type === "increase") {
       updatedCart[index].quantity += 1;
-    } else if (type === "decrease" && updatedCart[index].quantity > 1) {
-      updatedCart[index].quantity -= 1;
+    } else if (type === "decrease") {
+      if (updatedCart[index].quantity > 1) {
+        updatedCart[index].quantity -= 1;
+      } else {
+        updatedCart.splice(index, 1); // Remove item if quantity is 0
+      }
     }
-
+  
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
+  
+  
 
   const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
   const shipping = cart.length > 0 ? 5 : 0;
@@ -112,8 +118,8 @@ function CartHero() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             {cart.length > 0 ? (
-              cart.map((item, index) => (
-                <div key={index} className="bg-[#F5F5F5] rounded-lg p-4 sm:p-8 shadow-sm">
+              cart.map((item,index) => (
+                <div key={item.id} className="bg-[#F5F5F5] rounded-lg p-4 sm:p-8 shadow-sm">
                   <h2 className="text-lg font-semibold mb-4">{item.title}</h2>
                   <div className="flex flex-col sm:flex-row gap-4 sm:gap-8">
                     <div className="w-full sm:w-40 h-40 bg-gray-100 rounded-lg overflow-hidden">
