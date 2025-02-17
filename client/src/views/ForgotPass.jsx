@@ -12,9 +12,7 @@ const ForgotPassword = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
     });
-    console.log('waiting for data')
     const data = await response.json();
-    console.log(data);
     setMessage(data.message);
   };
 

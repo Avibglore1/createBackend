@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Eye, EyeOff } from "lucide-react";
+
 import Logo from "../assets/logo.png";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -27,33 +27,33 @@ const LogIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+  
     try {
       const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
+  
       const data = await response.json();
-
-      if (response.ok && data.token) {
-        login(data.token); // ✅ Store Token via Context
+  
+      if (response.ok && data.token && data.user) {  // ✅ Ensure `user` exists
+        login(data.token, data.user);  // ✅ Pass user details to AuthContext
         setEmail("");
         setPassword("");
-        toast.success("Login successful! 🎉"); // ✅ Success Toast
-        setTimeout(() => {
-          navigate(from, { replace: true });
-        }, 1000);
+        toast.success(`Welcome, ${data.user.name}! 🎉`); // ✅ Show user name in toast
+        setTimeout(() => navigate(from, { replace: true }), 1000);
       } else {
-        toast.error(data.message || "Invalid email or password."); // ✅ Error Toast
+        toast.error(data.message || "Invalid email or password.");
       }
     } catch (error) {
       console.error("Login Error:", error);
-      toast.error("Something went wrong. Please try again!"); // ✅ Error Toast
+      toast.error("Something went wrong. Please try again!");
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="pt-16 flex justify-center min-h-[calc(100vh-64px)] bg-gray-50">

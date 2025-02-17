@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CartImage from "../../assets/cartimg/cart.png";
 import { IoMdRemove, IoMdAdd } from "react-icons/io";
+import {useAuth} from "./../../Context/AuthContext.jsx"
+
 
 function CartHero() {
   const [cart, setCart] = useState([]);
-  const [user, setUser] = useState({});
+  const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,6 +49,17 @@ function CartHero() {
   }, []);
 
   const handlePayment = async () => {
+    if (cart.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+  
+    if (!isAuthenticated) {
+      alert("Please log in to continue.");
+      navigate("/login");
+      return;
+    }
+    
     try {
       const response = await fetch("http://localhost:5000/api/payment/checkout", {
         method: "POST",
@@ -56,18 +69,18 @@ function CartHero() {
           mobileNo: user.mobileNo || "0000000000",
           email: user.email || "guest@example.com",
           address: user.address || "Unknown",
-          amount: total,
+          amount: total * 100, // Convert to paise
         }),
       });
-
+      
       const data = await response.json();
-      if (!data.success) {
-        alert("Error in payment. Try again!");
+      if (!data.success || !data.order) {
+        alert("Error creating payment. Try again!");
         return;
       }
-
+  
       const options = {
-        key: "rzp_live_uZqf3G3ZLTSKbH",
+        key: import.meta.env.VITE_RAZORPAY_KEY || "rzp_test_defaultKey",
         amount: data.order.amount,
         currency: "INR",
         name: "Amulya Jewels",
@@ -80,15 +93,19 @@ function CartHero() {
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(response),
             });
-
+  
             const verifyData = await verifyRes.json();
             if (verifyData.success) {
+              alert("Payment Successful!");
+              localStorage.removeItem("cart"); // Clear cart on success
               navigate(`/success/${verifyData.payment_id}`);
             } else {
+              alert("Payment Failed. Please try again.");
               navigate("/failed");
             }
           } catch (error) {
             console.error("Payment Verification Error:", error);
+            alert("Payment Verification Failed!");
             navigate("/failed");
           }
         },
@@ -99,7 +116,7 @@ function CartHero() {
         },
         theme: { color: "#3399cc" },
       };
-
+  
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error) {
@@ -107,6 +124,7 @@ function CartHero() {
       alert("Payment failed! Try again.");
     }
   };
+  
 
   return (
     <div className="bg-white">
