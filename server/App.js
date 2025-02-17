@@ -4,6 +4,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { connectDb } from "./database/db.js";
 import authRoutes from "./routes/user.js";
+import paymentRoutes from "./routes/payment.js";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ connectDb();
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/payment", paymentRoutes);
 
 // Default Route
 app.get("/", (req, res) => {

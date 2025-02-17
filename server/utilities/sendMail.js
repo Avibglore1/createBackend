@@ -1,6 +1,6 @@
 import { createTransport } from "nodemailer";
 
-const sendRegisterMail = async (email, subject, data) => {
+export const sendRegisterMail = async (email, subject, data) => {
   const transport = createTransport({
     host: "smtp.gmail.com",
     port: 465,
@@ -65,7 +65,6 @@ const sendRegisterMail = async (email, subject, data) => {
   });
 };
 
-export default sendRegisterMail;
 
 export const sendForgotMail = async (subject, data) => {
   const transport = createTransport({

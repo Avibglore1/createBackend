@@ -1,7 +1,7 @@
 import { User } from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import sendRegisterMail, { sendForgotMail } from "../utilities/sendMail.js";
+import {sendRegisterMail, sendForgotMail } from "../utilities/sendMail.js";
 import {TryCatch} from "./../utilities/TryCatch.js";
 
 export const registerUser = TryCatch(async (req, res) => {
